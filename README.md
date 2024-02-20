@@ -62,7 +62,7 @@ SECRET_KEY: str = "SECRET_KEY"
 HOST: str = "0.0.0.0"
 ```
 
-> This file is stored in [src/config/\_\_init\_\_](src/config/__init__.py).py. Feel free to modify it with your own configuration.
+> This file is stored in [src/config/\_\_init\_\_.py](src/config/__init__.py) Feel free to modify it with your own configuration.
 
 ### Create a new database 🧑‍💻
 
