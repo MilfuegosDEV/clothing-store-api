@@ -1,6 +1,6 @@
 import jwt
 from datetime import datetime, timedelta
-from ..models.user import User
+from ..models import User
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import select
 from database import Engine
@@ -43,8 +43,16 @@ class Service:
             )
 
             with Session() as session:
-                session.add(user)
-                session.commit()
+                session.begin()
+                try:
+                    session.add(user)
+                except Exception as e:
+                    session.rollback()
+                    raise e
+                else:
+                    session.commit()
+                finally:
+                    session.close()
 
             return user
         except Exception as e:
