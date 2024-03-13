@@ -1,2 +1,2 @@
--- Active: 1708479619301@@127.0.0.1@5432@postgres
+-- Active: 1709692491618@@127.0.0.1@5432@postgres
 CREATE DATABASE flask_db;

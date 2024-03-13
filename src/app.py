@@ -1,6 +1,5 @@
 from flask import Flask
 
-
 def create_app() -> Flask:
     from core.db import DBConfig, db
     from blueprints import bp
@@ -13,4 +12,6 @@ def create_app() -> Flask:
         db.create_all()
 
     app.register_blueprint(bp, url_prefix="/api")
+
+    app.debug = True
     return app
