@@ -1,1 +1,1 @@
-CREATE DATABASE <DB_NAME>;
+CREATE DATABASE inventory_rack;
