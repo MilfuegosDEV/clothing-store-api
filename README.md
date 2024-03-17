@@ -2,13 +2,12 @@
 # Clothing Store API 🛍️
 Welcome to the Clothing Store API, a RESTful API developed with Flask and SQLAlchemy using **Clean Architecture** for managing a clothing store inventory. 
 
-<center>
-    <img src="https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white" />
-    <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" />
-    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" />
-    <img src="https://img.shields.io/badge/json%20web%20tokens-323330?style=for-the-badge&logo=json-web-tokens&logoColor=pink"/>
 
-</center>
+![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![JWT](https://img.shields.io/badge/json%20web%20tokens-323330?style=for-the-badge&logo=json-web-tokens&logoColor=pink)
+
 
 ## Project Structure 🗃️
 ```.txt
@@ -52,7 +51,7 @@ To get a local copy up and running, follow these simple steps:
 1. Clone the repository:
 
    ```bash
-   $ git clone https://github.com/milfuegosdev/inventory_rack.git
+   $ git clone https://github.com/milfuegosdev/clothing-store-api.git
    ```
 
 2. Navigate to the project directory:
