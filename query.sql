@@ -1,1 +1,1 @@
-CREATE DATABASE inventory_rack;
+CREATE DATABASE clothing_store;
