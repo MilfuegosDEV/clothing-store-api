@@ -1,77 +1,89 @@
-# Inventory-management ⚙️
 
-![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
-![Postgres](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![JWT](https://img.shields.io/badge/json%20web%20tokens-323330?style=for-the-badge&logo=json-web-tokens&logoColor=pink)
+# Clothing Store API 🛍️
+Welcome to the Clothing Store API, a RESTful API developed with Flask and SQLAlchemy using **Clean Architecture** for managing a clothing store inventory. 
 
-This project is dedicated to providing a robust server application for inventory management, equipped with all the essential functionalities required for efficient inventory control.
+<center>
+    <img src="https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white" />
+    <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" />
+    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" />
+    <img src="https://img.shields.io/badge/json%20web%20tokens-323330?style=for-the-badge&logo=json-web-tokens&logoColor=pink"/>
 
----
+</center>
 
-## Getting Started 😎
-
-Follow these instructions to set up the project on your local machine for development purposes.
-
-### Clone the repository 📦
-
-```bash
-$ git clone https://github.com/MilfuegosDEV/inventory-management.git
-$ cd inventory-management
+## Project Structure 🗃️
+```.txt
+├── src
+│   ├── application
+│   │   ├── external_services
+│   │   └── services
+│   ├── domain
+│   │   ├── entities
+│   │   └── interfaces
+│   │       ├── repositories
+│   │       └── services
+│   ├── infrastructure
+│   │   ├── config
+│   │   └── database
+│   │       ├── models
+│   │       └── repositories
+│   ├── presentation
+│   │    ├── controllers
+│   │    ├── decorators
+│   │    └── errors
+│   └── app.py
+├── .flaskenv
+├── .gitignore
+├── query.sql
+├── README.md
+└── requirements.txt
 ```
 
-### Create a new virtual environment for the application
+### Components 😖
 
-```bash
-$ py -m venv .venv
+1. ***application***: Contains business logic and services for the application, including internal and external services.
+2. ***domain***: Defines entities and interfaces for the application.
+3. ***infrastructure***: Manages data and external integrations, including database configuration.
+4. ***presentation***: Handles HTTP requests and responses through controllers and decorators.
 
-# in windows
-$ ./.venv/Scripts/activate
+## Getting Started 🦕:
 
-# in linux
-$ source .venv/bin/activate
-```
+To get a local copy up and running, follow these simple steps: 
 
-> If you need more information about virtual environments, you can find it [here](https://docs.python.org/3/library/venv.html#venv-def)
+1. Clone the repository:
 
-### Install all required dependencies 🚀
+   ```bash
+   $ git clone https://github.com/milfuegosdev/inventory_rack.git
+   ```
 
-```bash
-$ pip install -r requirements.txt
-```
+2. Navigate to the project directory:
 
-### Create a new branch 🌿
+   ```bash
+   $ cd inventory_rack
+   ```
 
-```bash
-$ git branch [branc-name]
-$ git checkout -b [branch-name]
-```
+3. Install dependencies:
+   ```bash
+   $ pip install -r requirements.txt
+   ```
 
-### Customize the configuration 🔩
+4. Setup your environment: 
+Create a `.flaskenv` file in the root directory of your project with the following content:
 
-```py
-# sqlAchemy settings
-DATABASE_CONNECTION_URI: str = "postgresql://<USERNAME>:<PASSWORD>@<HOST>:<PORT>/<DB_NAME>"
+   ```makefile
+   FLASK_APP=src/app.py
 
-SQLALCHEMY_TRACK_MODIFICATIONS: bool = False
-SEND_FILE_MAX_AGE_DEFAULT: int = 0
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USER=postgres
+   DB_PASSWORD=admin
+   DB_NAME=inventory_rack
+   ```
+5. Execute database setup: Execute the SQL queries in query.sql to set up your database.
 
-# Flask settings
-PORT: int = 5000
-SECRET_KEY: str = "SECRET_KEY"
-HOST: str = "0.0.0.0"
-```
+Your Clothing Store API should now be up and running locally! 🚀
 
-> This file is stored in [src/config/\_\_init\_\_.py](src/config/__init__.py). Feel free to modify it with your own configuration.
 
-### Create a new database 🧑‍💻
+Feel free to explore the project and customize it according to your requirements. If you have any questions or need further assistance, don't hesitate to reach out! 🦖👕
 
-```sql
-CREATE DATABASE <DB_NAME>
-```
-
-You need to execute this query for create a new database and then include in your config `DATABASE_CONNECTION_URI` with your database name.
-
-Now, your project is set up, and you're ready to start development.
-
-Feel free to customize and add more sections to the README based on the specific features and functionalities of your inventory management system. Include information about database setup, API documentation, and any other relevant details. 🤖🔩
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

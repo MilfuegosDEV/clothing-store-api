@@ -3,13 +3,7 @@ from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import MetaData
 
 
-class DBConfig:
-    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:admin@localhost:5432/flask_db"
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ECHO = True
-
-
-class Base(DeclarativeBase):
+class __Base(DeclarativeBase):
     metadata = MetaData(
         naming_convention={
             "ix": "ix_%(column_0_label)s",
@@ -21,4 +15,4 @@ class Base(DeclarativeBase):
     )
 
 
-db = SQLAlchemy(model_class=Base)
+db = SQLAlchemy(model_class=__Base)

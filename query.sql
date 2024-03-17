@@ -1,2 +1,1 @@
--- Active: 1709692491618@@127.0.0.1@5432@postgres
-CREATE DATABASE flask_db;
+CREATE DATABASE inventory_rack;
