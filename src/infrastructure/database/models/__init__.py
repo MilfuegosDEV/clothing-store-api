@@ -26,6 +26,12 @@ class User(db.Model):
         db.session.commit()
         return self
 
+    def update(self, user: UserEntity) -> "User":
+        self.first_name = user.first_name.title().strip()
+        self.last_name = user.last_name.title().strip()
+        db.session.commit()
+        return self
+
     def to_dict(self) -> dict | None:
         return {
             "id": self.id,

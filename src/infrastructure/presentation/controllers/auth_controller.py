@@ -1,6 +1,6 @@
 import re
 from application.services import UserService
-from domain.entities import UserEntity
+from domain.dtos.user import CreateUserDto
 from flask import Blueprint, request, jsonify
 
 
@@ -55,7 +55,7 @@ class AuthController(Blueprint):
                 400,
             )
 
-        user = UserEntity(**data)
+        user = CreateUserDto(**data)
         response = self.user_service.create_user(user)
 
         if response:
