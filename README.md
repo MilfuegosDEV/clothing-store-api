@@ -17,18 +17,17 @@ Welcome to the Clothing Store API, a RESTful API developed with Flask and SQLAlc
 │   │   └── services
 │   ├── domain
 │   │   ├── entities
-│   │   └── interfaces
-│   │       ├── repositories
-│   │       └── services
+│   │   ├── repositories
+│   │   └── services
 │   ├── infrastructure
 │   │   ├── config
+│   │   ├── presentation
+│   │   │   ├── controllers
+│   │   │   ├── decorators
+│   │   │   └── errors
 │   │   └── database
 │   │       ├── models
 │   │       └── repositories
-│   ├── presentation
-│   │    ├── controllers
-│   │    ├── decorators
-│   │    └── errors
 │   └── app.py
 ├── .flaskenv
 ├── .gitignore
@@ -41,8 +40,7 @@ Welcome to the Clothing Store API, a RESTful API developed with Flask and SQLAlc
 
 1. ***application***: Contains business logic and services for the application, including internal and external services.
 2. ***domain***: Defines entities and interfaces for the application.
-3. ***infrastructure***: Manages data and external integrations, including database configuration.
-4. ***presentation***: Handles HTTP requests and responses through controllers and decorators.
+3. ***infrastructure***: Manages data and external integrations, including database configuration controllers
 
 ## Getting Started 🦕:
 
