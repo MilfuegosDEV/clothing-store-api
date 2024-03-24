@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ..repositories import IUserRepository
+from domain.repositories import IUserRepository
 from domain.entities import UserEntity
 from domain.dtos.user import CreateUserDto, UpdateUserDto
 
