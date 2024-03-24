@@ -10,22 +10,6 @@ class IUserService(ABC):
         pass
 
     @abstractmethod
-    def create_user(self, user: CreateUserDto) -> dict[UserEntity] | None:
-        """
-        Create a new user in the database.
-
-        Args:
-            user (UserEntity): The user to be created.
-
-        Raise:
-            sqlalchemy.exc.IntegrityError: If the user already exists in the database.
-
-        Returns:
-            dict[UserEntity] | None: The user created or None if the user already exists.
-        """
-        pass
-
-    @abstractmethod
     def update_user(self, id: int, user: UpdateUserDto) -> dict[UserEntity] | None:
         """
         Update a user in the database.
@@ -46,6 +30,7 @@ class IUserService(ABC):
 
         Args:
             username (str): The username of the user to find.
+            include_password (bool): Whether to include the password in the result.
 
         Returns:
             dict[UserEntity] | None: The user found or None if the user does not exist.

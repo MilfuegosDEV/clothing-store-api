@@ -1,14 +1,15 @@
 import re
-from application.services import UserService
-from domain.dtos.user import CreateUserDto
+from application.services import AuthService
+from domain.dtos.auth import RegisterDto, LoginDto
 from flask import Blueprint, request, jsonify
 
 
 class AuthController(Blueprint):
     def __init__(self):
         super().__init__("auth", __name__)
-        self.user_service = UserService()
+        self.auth_service = AuthService()
         self.add_url_rule("/sign-up", view_func=self.create_user, methods=["POST"])
+        self.add_url_rule("/login", view_func=self.login, methods=["POST"])
 
     def create_user(self) -> dict | None:
 
@@ -55,8 +56,8 @@ class AuthController(Blueprint):
                 400,
             )
 
-        user = CreateUserDto(**data)
-        response = self.user_service.create_user(user)
+        user = RegisterDto(**data)
+        response = self.auth_service.register(user)
 
         if response:
             return (
@@ -80,4 +81,61 @@ class AuthController(Blueprint):
                 }
             ),
             409,
+        )
+
+    def login(self) -> dict | None:
+        data = request.json
+
+        if not all(key in data for key in ["username", "password"]):
+            return (
+                jsonify(
+                    {
+                        "status": 400,
+                        "message": "Invalid input data",
+                        "success": False,
+                        "data": None,
+                    }
+                ),
+                400,
+            )
+
+        user = LoginDto(**data)
+        response = self.auth_service.authenticate(user)
+
+        if response is None:
+            return (
+                jsonify(
+                    {
+                        "status": 401,
+                        "message": "The username doesn't exists",
+                        "success": False,
+                        "data": None,
+                    }
+                ),
+                401,
+            )
+
+        if response == False:
+            return (
+                jsonify(
+                    {
+                        "status": 401,
+                        "message": "Invalid credentials",
+                        "success": False,
+                        "data": None,
+                    }
+                ),
+                401,
+            )
+
+        return (
+            jsonify(
+                {
+                    "status": 200,
+                    "message": "User authenticated sucessfully",
+                    "success": True,
+                    "data": response,
+                }
+            ),
+            200,
         )

@@ -21,8 +21,9 @@ def create_app() -> Flask:
         db.create_all()
         Role.SeedRoles()
 
-    app.register_blueprint(AuthController(), url_prefix="/auth", name="auth")
-    app.register_blueprint(UserController(), url_prefix="/user", name="user")
+    app.register_blueprint(AuthController, url_prefix="/auth", name="auth")
+    app.register_blueprint(UserController, url_prefix="/users", name="users")
+
     app.register_error_handler(HTTPException, handle_http_exception)
     app.register_error_handler(Exception, handle_exception)
 

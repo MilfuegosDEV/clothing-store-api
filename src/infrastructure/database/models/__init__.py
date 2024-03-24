@@ -16,10 +16,10 @@ class User(db.Model):
     roles = relationship("UserRole", backref="user", cascade="all, delete-orphan")
 
     def __init__(self, user: UserEntity):
-        self.first_name = user.first_name.title().strip()  # joe -> Joe
-        self.last_name = user.last_name.title().strip()
-        self.username = user.username.lower().strip()
-        self.password = user.password.strip()
+        self.first_name = user.first_name
+        self.last_name = user.last_name
+        self.username = user.username
+        self.password = user.password
 
     def save(self) -> "User":
         db.session.add(self)
@@ -27,17 +27,18 @@ class User(db.Model):
         return self
 
     def update(self, user: UserEntity) -> "User":
-        self.first_name = user.first_name.title().strip()
-        self.last_name = user.last_name.title().strip()
+        self.first_name = user.first_name
+        self.last_name = user.last_name
         db.session.commit()
         return self
 
-    def to_dict(self) -> dict | None:
+    def to_dict(self, include_password: bool = False) -> dict | None:
         return {
             "id": self.id,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "username": self.username,
+            "password": self.password if include_password else None,
         }
 
     def __repr__(self) -> str:
@@ -57,7 +58,7 @@ class Role(db.Model):
     users = relationship("UserRole", backref="role", cascade="all, delete-orphan")
 
     def __init__(self, name: str):
-        self.name = name.title().strip()
+        self.name = name
 
     def save(self) -> "Role":
         db.session.add(self)

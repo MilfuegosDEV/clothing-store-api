@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from domain.dtos.user import CreateUserDto, UpdateUserDto
+from domain.dtos.user import UpdateUserDto, CreateUserDto
 from domain.entities import UserEntity
 
 
@@ -37,11 +37,14 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def find_by_username(self, username: str) -> dict | None:
+    def find_by_username(
+        self, username: str, include_password: bool = False
+    ) -> dict[UserEntity] | None:
         """Find a user by username.
 
         Args:
             username (str): The username of the user to find.
+            include_password (bool): Whether to include the password in the result.
 
         Returns:
             dict[UserEntity] | None: The user found or None if the user does not exist.
