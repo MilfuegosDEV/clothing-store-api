@@ -6,7 +6,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 class UserController(Blueprint):
     def __init__(self):
-        super().__init__("user", __name__)
+        super().__init__("users", __name__)
         self.user_service = UserService()
 
         self.add_url_rule("/get/all", view_func=self.find_all_users, methods=["GET"])
@@ -14,12 +14,14 @@ class UserController(Blueprint):
             "/get/<username>", view_func=self.find_user_by_username, methods=["GET"]
         )
         self.add_url_rule("/get/me", view_func=self.me, methods=["GET"])
-        self.add_url_rule("/<int:id>", view_func=self.update_user, methods=["PUT"])
+        self.add_url_rule("/update", view_func=self.update_user, methods=["PUT"])
 
     @jwt_required()
-    def update_user(self, id: int) -> dict | None:
+    def update_user(
+        self,
+    ) -> dict | None:
         data: dict[str] = request.json
-        data["id"] = id
+        data["username"] = get_jwt_identity()
 
         if not all(key in data for key in ["first_name", "last_name"]):
             return (

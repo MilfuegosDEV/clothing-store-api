@@ -25,7 +25,9 @@ class UserRepository(IUserRepository):
 
     def update(self, user):
         try:
-            found_user: User = self.userModel.query.filter_by(id=user.id).first()
+            found_user: User = self.userModel.query.filter_by(
+                username=user.username
+            ).first()
             if not found_user:
                 return None
 
