@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import MetaData
 
@@ -16,3 +17,4 @@ class __Base(DeclarativeBase):
 
 
 db = SQLAlchemy(model_class=__Base)
+jwt = JWTManager()

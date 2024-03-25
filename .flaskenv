@@ -6,3 +6,5 @@ DB_USER=postgres
 DB_PASSWORD=admin
 DB_NAME=clothing_store
 
+JWT_SECRET_KEY=secret
+

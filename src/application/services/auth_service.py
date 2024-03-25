@@ -1,7 +1,7 @@
 from domain.services import IAuthService
 from infrastructure.database.repositories import UserRepository
 from bcrypt import checkpw
-import jwt
+import flask_jwt_extended as jwt
 
 
 class AuthService(IAuthService):
@@ -24,11 +24,8 @@ class AuthService(IAuthService):
             if not checkpw(user.password.encode(), data["password"]):
                 return False
 
-            return jwt.encode(
-                {"user": {"id": data["id"], "username": data["username"]}},
-                "secret",
-                algorithm="HS256",
-            )
+            # Create a new access token
+            return jwt.create_access_token(identity=user.username)
         except Exception as e:
             print(e)
             return None

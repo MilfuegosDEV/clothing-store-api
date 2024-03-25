@@ -1,8 +1,7 @@
-from dotenv import load_dotenv
 import os
 
 
-class DBConfig:
+class Config:
     """
     Config class to load environment variables from .flaskenv file
     """
@@ -18,3 +17,5 @@ class DBConfig:
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False
+
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")

@@ -1,4 +1,4 @@
-from .. import db
+from infrastructure.extensions import db
 from domain.entities import UserEntity
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, LargeBinary, ForeignKey

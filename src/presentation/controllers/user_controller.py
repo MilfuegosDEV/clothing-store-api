@@ -1,19 +1,22 @@
 from application.services import UserService
 from flask import Blueprint, jsonify, request
 from domain.dtos.user import UpdateUserDto
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 
 class UserController(Blueprint):
     def __init__(self):
         super().__init__("user", __name__)
         self.user_service = UserService()
 
-        self.add_url_rule("/", view_func=self.find_all_users, methods=["GET"])
+        self.add_url_rule("/all", view_func=self.find_all_users, methods=["GET"])
         self.add_url_rule(
-            "/<username>", view_func=self.find_user_by_username, methods=["GET"]
+            "/get/<username>", view_func=self.find_user_by_username, methods=["GET"]
         )
-
+        self.add_url_rule("/get/me", view_func=self.me, methods=["GET"])
         self.add_url_rule("/<int:id>", view_func=self.update_user, methods=["PUT"])
 
+    @jwt_required()
     def update_user(self, id: int) -> dict | None:
         data: dict[str] = request.json
         data["id"] = id
@@ -56,6 +59,7 @@ class UserController(Blueprint):
             }
         )
 
+    @jwt_required()
     def find_user_by_username(self, username: str) -> dict | None:
         response = self.user_service.find_user_by_username(username)
 
@@ -80,8 +84,8 @@ class UserController(Blueprint):
             }
         )
 
+    @jwt_required()
     def find_all_users(self) -> list[dict] | None:
-
         response = self.user_service.find_all_users()
 
         if len(response) == 0 or not response:
@@ -92,6 +96,32 @@ class UserController(Blueprint):
                         "message": "No users found",
                         "success": False,
                         "data": [],
+                    }
+                ),
+                404,
+            )
+
+        return jsonify(
+            {
+                "status": 200,
+                "success": True,
+                "data": response,
+            }
+        )
+
+    @jwt_required()
+    def me(self) -> dict | None:
+        username = get_jwt_identity()
+        response = self.user_service.find_user_by_username(username)
+
+        if not response:
+            return (
+                jsonify(
+                    {
+                        "status": 404,
+                        "message": "User not found",
+                        "success": False,
+                        "data": None,
                     }
                 ),
                 404,
