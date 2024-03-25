@@ -16,18 +16,20 @@ Welcome to the Clothing Store API, a RESTful API developed with Flask and SQLAlc
 │   │   ├── external_services
 │   │   └── services
 │   ├── domain
+│   │   ├── dtos
 │   │   ├── entities
 │   │   ├── repositories
 │   │   └── services
 │   ├── infrastructure
 │   │   ├── config
-│   │   ├── presentation
-│   │   │   ├── controllers
-│   │   │   ├── decorators
-│   │   │   └── errors
+│   │   ├── extensions
 │   │   └── database
 │   │       ├── models
 │   │       └── repositories
+│   ├── presentation
+│   │   ├── controllers
+│   │   ├── decorators
+│   │   └── errors
 │   └── app.py
 ├── .flaskenv
 ├── .gitignore
@@ -40,7 +42,8 @@ Welcome to the Clothing Store API, a RESTful API developed with Flask and SQLAlc
 
 1. ***application***: Contains business logic and services for the application, including internal and external services.
 2. ***domain***: Defines entities and interfaces for the application.
-3. ***infrastructure***: Manages data and external integrations, including database configuration controllers
+3. ***infrastructure***: Manages data and external integrations, including database configuration.
+4. ***presentation***: Includes controllers
 
 ## Getting Started 🦕:
 
@@ -73,7 +76,9 @@ Create a `.flaskenv` file in the root directory of your project with the followi
    DB_PORT=5432
    DB_USER=postgres
    DB_PASSWORD=admin
-   DB_NAME=inventory_rack
+   DB_NAME=clothing_store
+
+   JWT_SECRET_KEY=secret
    ```
 5. Execute database setup: Execute the SQL queries in query.sql to set up your database.
 
