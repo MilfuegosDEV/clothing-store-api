@@ -1,4 +1,4 @@
-from ..models import User, UserRole, Role
+from infrastructure.database.models import User, UserRole, Role
 from domain.repositories import IUserRepository
 from sqlalchemy import asc
 import sqlalchemy.exc
