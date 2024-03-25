@@ -9,7 +9,7 @@ class UserController(Blueprint):
         super().__init__("user", __name__)
         self.user_service = UserService()
 
-        self.add_url_rule("/all", view_func=self.find_all_users, methods=["GET"])
+        self.add_url_rule("/get/all", view_func=self.find_all_users, methods=["GET"])
         self.add_url_rule(
             "/get/<username>", view_func=self.find_user_by_username, methods=["GET"]
         )

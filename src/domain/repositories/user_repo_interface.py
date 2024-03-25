@@ -21,11 +21,10 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def update(self, id: int, user: UpdateUserDto) -> dict[UserEntity] | None:
+    def update(self, user: UpdateUserDto) -> dict[UserEntity] | None:
         """Update a user in the database.
 
         Args:
-            id (int): The ID of the user to be updated.
             user (UserEntity): The user to be updated.
 
         Raise:

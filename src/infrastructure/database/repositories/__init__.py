@@ -11,10 +11,12 @@ class UserRepository(IUserRepository):
 
     def create(self, user):
         try:
+            # to prevent create an user with the same username twice in the database
             if self.userModel.exists(user.username):
                 return None
             else:
                 new_user: dict[User] | None = self.userModel(user).save().to_dict()
+                # set user role to user by default when creating a new user
                 self.userRoleModel(new_user["id"], 1).save()
                 return new_user
 
@@ -41,6 +43,7 @@ class UserRepository(IUserRepository):
 
             user_dict: dict[User] = user.to_dict(include_password)
 
+            # appends role name to response
             role: Role = (
                 Role.query.join(UserRole).filter(UserRole.user_id == user.id).first()
             )
@@ -54,24 +57,26 @@ class UserRepository(IUserRepository):
 
     def find_all(self):
         try:
+            # get all users
             users: list[User] = self.userModel.query.order_by(
                 asc(self.userModel.id)
             ).all()
-            users_list = []
 
-            for user in users:
-                user_dict: dict[User] = user.to_dict()
+            if not users:
+                return None
 
-                role: Role = (
-                    Role.query.join(UserRole)
-                    .filter(UserRole.user_id == user.id)
-                    .first()
-                )
+            # for user in users:
 
-                user_dict["role"] = role.name
-                users_list.append(user_dict)
+            #     role: Role = (
+            #         Role.query.join(UserRole)
+            #         .filter(UserRole.user_id == user.id)
+            #         .first()
+            #     )
 
-            return users_list
+            #     user.role_name = role.name
+            #     users_list.append(user.to_dict())
+
+            return [user.to_dict() for user in users]
 
         except sqlalchemy.exc.IntegrityError:
             return None
