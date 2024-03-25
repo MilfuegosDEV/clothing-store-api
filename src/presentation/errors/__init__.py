@@ -32,10 +32,26 @@ def handle_exception(error: Exception):
 
 
 def handle_unauthorized_exception(error: JWTExtendedException):
+    """Handles unauthorized exception."""
     return (
         jsonify(
             {
                 "message": "Unauthorized",
+                "success": False,
+                "data": None,
+                "status": 401,
+            }
+        ),
+        401,
+    )
+
+
+def handle_expired_token_exception(jwt_header, jwt_payload):
+    """Handles expired token exception."""
+    return (
+        jsonify(
+            {
+                "message": "Token has expired",
                 "success": False,
                 "data": None,
                 "status": 401,

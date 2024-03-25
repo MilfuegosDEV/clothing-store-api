@@ -8,7 +8,12 @@ def create_app() -> Flask:
     from infrastructure.extensions import db, jwt
     from infrastructure.database.models import Role
     from presentation.controllers import AuthController, UserController
-    from presentation.errors import handle_http_exception, handle_exception
+    from presentation.errors import (
+        handle_http_exception,
+        handle_exception,
+        handle_unauthorized_exception,
+        handle_expired_token_exception,
+    )
 
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -28,30 +33,10 @@ def create_app() -> Flask:
 
     @jwt.expired_token_loader
     def custom_expired_token_loader_callback(jwt_header, jwt_payload):
-        return (
-            jsonify(
-                {
-                    "status": 401,
-                    "message": "Token has expired",
-                    "success": False,
-                    "data": None,
-                }
-            ),
-            401,
-        )
+        return handle_expired_token_exception(jwt_header, jwt_payload)
 
     @jwt.unauthorized_loader
     def custom_unauthorized_loader_callback(error):
-        return (
-            jsonify(
-                {
-                    "status": 401,
-                    "message": "Unauthorized",
-                    "success": False,
-                    "data": None,
-                }
-            ),
-            401,
-        )
+        return handle_unauthorized_exception(error)
 
     return app
