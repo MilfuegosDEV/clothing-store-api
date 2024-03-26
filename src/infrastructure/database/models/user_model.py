@@ -1,4 +1,5 @@
 from .user_role_model import UserRoleModel
+from .role_model import RoleModel
 from infrastructure.extensions import db
 from domain.entities import UserEntity
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -15,13 +16,11 @@ class UserModel(db.Model):
 
     roles = relationship("UserRoleModel", backref="USER", cascade="all, delete-orphan")
 
-
     def __init__(self, user: UserEntity):
         self.first_name = user.first_name
         self.last_name = user.last_name
         self.username = user.username
         self.password = user.password
-
 
     def save(self) -> "UserModel":
         db.session.add(self)
@@ -34,14 +33,28 @@ class UserModel(db.Model):
         db.session.commit()
         return self
 
-    def to_dict(self, include_password: bool = False) -> dict | None:
-        return {
+    def to_dict(
+        self, include_password: bool = False, include_role_name: bool = True
+    ) -> dict | None:
+        response: dict = {
             "id": self.id,
             "first_name": self.first_name,
             "last_name": self.last_name,
             "username": self.username,
-            "password": self.password if include_password else None,
         }
+
+        if include_password:
+            response["password"] = self.password
+
+        if include_role_name:
+            role: RoleModel = (
+                RoleModel.query.join(UserRoleModel)
+                .filter(UserRoleModel.user_id == self.id)
+                .first()
+            )
+            response["role"] = role.name
+
+        return response
 
     def __repr__(self) -> str:
         return f"<User {self.username}>"
@@ -49,4 +62,3 @@ class UserModel(db.Model):
     @staticmethod
     def exists(username: str) -> bool:
         return True if UserModel.query.filter_by(username=username).first() else False
-

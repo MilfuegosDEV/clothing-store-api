@@ -37,13 +37,17 @@ class IUserRepository(ABC):
 
     @abstractmethod
     def find_by_username(
-        self, username: str, include_password: bool = False
+        self,
+        username: str,
+        include_password: bool = False,
+        include_role_name: bool = True,
     ) -> dict[UserEntity] | None:
         """Find a user by username.
 
         Args:
             username (str): The username of the user to find.
             include_password (bool): Whether to include the password in the result.
+            include_role_name (bool): Whether to include the role name in the result.
 
         Returns:
             dict[UserEntity] | None: The user found or None if the user does not exist.

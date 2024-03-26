@@ -38,49 +38,28 @@ class UserRepository(IUserRepository):
         except sqlalchemy.exc.IntegrityError:
             return None
 
-    def find_by_username(self, username, include_password: bool = False):
+    def find_by_username(
+        self, username, include_password: bool = False, include_role_name: bool = True
+    ):
         try:
             user: UserModel = self.userModel.query.filter_by(username=username).first()
 
             if not user:
                 return None
 
-            user_dict: dict[UserModel] = user.to_dict(include_password)
-
-            # appends role name to response
-            role: RoleModel = (
-                self.roleModel.query.join(UserRoleModel)
-                .filter(UserRoleModel.user_id == user.id)
-                .first()
-            )
-
-            user_dict["role"] = role.name
-
-            return user_dict
+            return user.to_dict(include_password, include_role_name)
 
         except sqlalchemy.exc.IntegrityError:
             return None
 
     def find_all(self):
         try:
-            # get all users
             users: list[UserModel] = self.userModel.query.order_by(asc(UserModel.id)).all()
 
             if not users:
                 return None
 
-            # for user in users:
-
-            #     role: Role = (
-            #         Role.query.join(UserRole)
-            #         .filter(UserRole.user_id == user.id)
-            #         .first()
-            #     )
-
-            #     user.role_name = role.name
-            #     users_list.append(user.to_dict())
-
-            return [user.to_dict() for user in users]
+            return [user.to_dict(False, True) for user in users]
 
         except sqlalchemy.exc.IntegrityError:
             return None

@@ -12,7 +12,7 @@ class UserService(IUserService):
 
     def find_user_by_username(self, username):
         username = username.strip().lower()
-        return self.user_repository.find_by_username(username)
+        return self.user_repository.find_by_username(username, include_role_name=True)
 
     def find_all_users(self):
         return self.user_repository.find_all()
