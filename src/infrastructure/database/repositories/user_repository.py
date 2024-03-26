@@ -49,7 +49,9 @@ class UserRepository(IUserRepository):
 
             # appends role name to response
             role: RoleModel = (
-                RoleModel.query.join().filter(self.userRoleModel.user_id == user.id).first()
+                self.roleModel.query.join(UserRoleModel)
+                .filter(UserRoleModel.user_id == user.id)
+                .first()
             )
 
             user_dict["role"] = role.name
@@ -62,9 +64,7 @@ class UserRepository(IUserRepository):
     def find_all(self):
         try:
             # get all users
-            users: list[UserModel] = self.userModel.query.order_by(
-                asc(self.userModel.id)
-            ).all()
+            users: list[UserModel] = self.userModel.query.order_by(asc(UserModel.id)).all()
 
             if not users:
                 return None
