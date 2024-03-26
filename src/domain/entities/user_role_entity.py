@@ -1,4 +1,4 @@
-class UserRole:
+class UserRoleEntity:
     """Represents a relationship between a user and a role."""
 
     def __init__(self, uid: int, rid: int):

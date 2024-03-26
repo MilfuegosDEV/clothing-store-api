@@ -6,7 +6,7 @@ def create_app() -> Flask:
     from werkzeug.exceptions import HTTPException
     from infrastructure.config import Config
     from infrastructure.extensions import db, jwt
-    from infrastructure.database.models import Role
+    from infrastructure.database.models import RoleModel
     from presentation.controllers import AuthController, UserController
     from presentation.errors import (
         handle_http_exception,
@@ -23,7 +23,7 @@ def create_app() -> Flask:
 
     with app.app_context():
         db.create_all()
-        Role.SeedRoles()
+        RoleModel.SeedRoles()
 
     app.register_blueprint(AuthController, url_prefix="/auth", name="auth")
     app.register_blueprint(UserController, url_prefix="/users", name="users")
