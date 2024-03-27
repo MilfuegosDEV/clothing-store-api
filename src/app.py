@@ -7,7 +7,7 @@ def create_app() -> Flask:
     from infrastructure.config import Config
     from infrastructure.extensions import db, jwt
     from infrastructure.database.models import RoleModel
-    from presentation.controllers import AuthController, UserController
+    from presentation.controllers import AuthController, UserController, SupplierController
     from presentation.errors import (
         handle_http_exception,
         handle_exception,
@@ -27,6 +27,7 @@ def create_app() -> Flask:
 
     app.register_blueprint(AuthController, url_prefix="/auth", name="auth")
     app.register_blueprint(UserController, url_prefix="/users", name="users")
+    app.register_blueprint(SupplierController, url_prefix="/suppliers", name="suppliers")
 
     app.register_error_handler(HTTPException, handle_http_exception)
     app.register_error_handler(Exception, handle_exception)

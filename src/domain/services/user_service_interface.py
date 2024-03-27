@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from domain.repositories import IUserRepository
 from domain.entities import UserEntity
-from domain.dtos.user import CreateUserDto, UpdateUserDto
+from domain.dtos.user import UpdateUserDto
 
 
 class IUserService(ABC):
