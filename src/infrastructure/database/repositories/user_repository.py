@@ -16,11 +16,14 @@ class UserRepository(IUserRepository):
             if self.userModel.exists(user.username):
                 return None
             else:
-                new_user: dict[UserModel] | None = self.userModel(user).save().to_dict()
+                new_user: UserModel = self.userModel(user).save()
                 # assign role to user if the user is not the first user the role will be user by default.
                 # otherwise, the role will be admin
-                self.userRoleModel(user_id=new_user["id"], role_id=1 if new_user["id"] == 1 else 2).save()
-                return new_user
+                self.userRoleModel(
+                    user_id=new_user.id, role_id=1 if new_user.id == 1 else 2
+                ).save()
+
+                return new_user.to_dict()
 
         except sqlalchemy.exc.IntegrityError:
             return None
