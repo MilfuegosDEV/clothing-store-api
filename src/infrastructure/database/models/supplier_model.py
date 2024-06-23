@@ -13,14 +13,11 @@ class SupplierModel(db.Model):
     email: Mapped[str] = mapped_column(String(50), nullable=False)
     phone: Mapped[str] = mapped_column(String(20), nullable=False)
 
-
-
     def __init__(self, supplier: SupplierEntity):
         self.name = supplier.name
         self.address = supplier.address
         self.email = supplier.email
         self.phone = supplier.phone
-
 
     def save(self) -> "SupplierModel":
         db.session.add(self)
@@ -41,8 +38,8 @@ class SupplierModel(db.Model):
             "name": self.name,
             "address": self.address,
             "email": self.email,
-            "phone": self.phone
+            "phone": self.phone,
         }
-    
+
     def __repr__(self) -> str:
         return f"<Supplier {self.name}>"

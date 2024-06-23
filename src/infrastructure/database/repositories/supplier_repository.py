@@ -4,6 +4,7 @@ from domain.entities import SupplierEntity
 from sqlalchemy import asc
 import sqlalchemy.exc
 
+
 class SupplierRepository(ISupplierRepository):
 
     def __init__(self):
@@ -12,7 +13,9 @@ class SupplierRepository(ISupplierRepository):
     def create(self, supplier: SupplierEntity):
         try:
 
-            new_supplier: dict[SupplierModel] | None = self.supplierModel(supplier).save().to_dict()
+            new_supplier: dict[SupplierModel] | None = (
+                self.supplierModel(supplier).save().to_dict()
+            )
             return new_supplier
 
         except sqlalchemy.exc.IntegrityError:
@@ -30,10 +33,12 @@ class SupplierRepository(ISupplierRepository):
 
         except sqlalchemy.exc.IntegrityError:
             return None
-        
+
     def find_by_id(self, supplier_id):
         try:
-            supplier: SupplierModel = self.supplierModel.query.filter_by(id=supplier_id).first()
+            supplier: SupplierModel = self.supplierModel.query.filter_by(
+                id=supplier_id
+            ).first()
 
             if not supplier:
                 return None
@@ -45,7 +50,9 @@ class SupplierRepository(ISupplierRepository):
 
     def find_by_name(self, name):
         try:
-            supplier: SupplierModel = self.supplierModel.query.filter_by(name=name).first()
+            supplier: SupplierModel = self.supplierModel.query.filter_by(
+                name=name
+            ).first()
 
             if not supplier:
                 return None
@@ -57,7 +64,9 @@ class SupplierRepository(ISupplierRepository):
 
     def find_all(self):
         try:
-            suppliers: list[SupplierModel] = self.supplierModel.query.order_by(asc(SupplierModel.id)).all()
+            suppliers: list[SupplierModel] = self.supplierModel.query.order_by(
+                asc(SupplierModel.id)
+            ).all()
 
             if not suppliers:
                 return None
@@ -69,7 +78,9 @@ class SupplierRepository(ISupplierRepository):
 
     def delete(self, name):
         try:
-            supplier: SupplierModel = self.supplierModel.query.filter_by(name=name).first()
+            supplier: SupplierModel = self.supplierModel.query.filter_by(
+                name=name
+            ).first()
 
             if not supplier:
                 return None

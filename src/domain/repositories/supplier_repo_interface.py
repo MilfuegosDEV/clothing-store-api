@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from domain.dtos.supplier import CreateSupplierDto
 from domain.entities import SupplierEntity
 
+
 class ISupplierRepository(ABC):
     @abstractmethod
     def create(self, supplier: CreateSupplierDto) -> dict[SupplierEntity] | None:

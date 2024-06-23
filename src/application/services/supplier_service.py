@@ -1,6 +1,7 @@
 from domain.services import ISupplierService
 from infrastructure.database.repositories import SupplierRepository
 
+
 class SupplierService(ISupplierService):
     def __init__(self):
         self.repository = SupplierRepository()

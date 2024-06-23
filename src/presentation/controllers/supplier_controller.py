@@ -3,12 +3,15 @@ from flask import Blueprint, jsonify, request
 from domain.dtos.supplier import CreateSupplierDto, UpdateSupplierDto
 from flask_jwt_extended import jwt_required
 
+
 class SupplierController(Blueprint):
     def __init__(self):
         super().__init__("suppliers", __name__)
         self.supplier_service = SupplierService()
 
-        self.add_url_rule("/get/all", view_func=self.find_all_suppliers, methods=["GET"])
+        self.add_url_rule(
+            "/get/all", view_func=self.find_all_suppliers, methods=["GET"]
+        )
         self.add_url_rule(
             "/get/<name>", view_func=self.find_supplier_by_name, methods=["GET"]
         )
@@ -59,7 +62,7 @@ class SupplierController(Blueprint):
                 "data": response,
             }
         )
-    
+
     @jwt_required()
     def update_supplier(
         self,
@@ -103,7 +106,7 @@ class SupplierController(Blueprint):
                 "data": response,
             }
         )
-    
+
     @jwt_required()
     def find_supplier_by_name(self, name: str) -> dict | None:
         response = self.supplier_service.find_supplier_by_name(name)
@@ -128,7 +131,7 @@ class SupplierController(Blueprint):
                 "data": response,
             }
         )
-    
+
     @jwt_required()
     def find_all_suppliers(self) -> dict | None:
         response = self.supplier_service.find_all_suppliers()
@@ -153,7 +156,7 @@ class SupplierController(Blueprint):
                 "data": response,
             }
         )
-    
+
     @jwt_required()
     def delete_supplier(self) -> dict | None:
         data: dict[str] = request.json
@@ -195,4 +198,3 @@ class SupplierController(Blueprint):
                 "data": response,
             }
         )
-    

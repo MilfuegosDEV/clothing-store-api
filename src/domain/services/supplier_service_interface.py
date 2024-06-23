@@ -3,6 +3,7 @@ from domain.dtos.supplier import CreateSupplierDto
 
 from abc import ABC, abstractmethod
 
+
 class ISupplierService(ABC):
 
     @abstractmethod
