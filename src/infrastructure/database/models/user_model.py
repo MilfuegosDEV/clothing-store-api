@@ -47,8 +47,9 @@ class UserModel(db.Model):
             response["password"] = self.password
 
         if include_role_name:
-            role: RoleModel = (
-                RoleModel.query.join(UserRoleModel)
+            role = (
+                db.session.query(RoleModel)
+                .join(UserRoleModel)
                 .filter(UserRoleModel.user_id == self.id)
                 .first()
             )

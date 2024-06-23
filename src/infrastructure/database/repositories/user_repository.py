@@ -1,6 +1,6 @@
 from infrastructure.database.models import UserModel, UserRoleModel, RoleModel
 from domain.repositories import IUserRepository
-from sqlalchemy import asc
+from sqlalchemy import desc, asc
 import sqlalchemy.exc
 
 
@@ -57,12 +57,10 @@ class UserRepository(IUserRepository):
 
     def find_all(self):
         try:
-            users: list[UserModel] = self.userModel.query.order_by(asc(UserModel.id)).all()
+            users: list[UserModel] | None = self.userModel.query.order_by(
+                asc(UserModel.id)
+            ).all()
 
-            if not users:
-                return None
-
-            return [user.to_dict(False, True) for user in users]
-
+            return [user.to_dict() for user in users] if users else None
         except sqlalchemy.exc.IntegrityError:
             return None

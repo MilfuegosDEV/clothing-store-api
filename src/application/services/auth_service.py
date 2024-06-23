@@ -25,7 +25,7 @@ class AuthService(IAuthService):
                 return False
 
             # Create a new access token
-            return jwt.create_access_token(identity=user.username)
+            return jwt.create_access_token(identity=user.username, fresh=True)
         except Exception as e:
             print(e)
             return None

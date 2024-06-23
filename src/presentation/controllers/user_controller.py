@@ -16,7 +16,7 @@ class UserController(Blueprint):
         self.add_url_rule("/get/me", view_func=self.me, methods=["GET"])
         self.add_url_rule("/update", view_func=self.update_user, methods=["PUT"])
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     def update_user(
         self,
     ) -> dict | None:
@@ -61,7 +61,7 @@ class UserController(Blueprint):
             }
         )
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     def find_user_by_username(self, username: str) -> dict | None:
         response = self.user_service.find_user_by_username(username)
 
@@ -86,7 +86,7 @@ class UserController(Blueprint):
             }
         )
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     def find_all_users(self) -> list[dict] | None:
         response = self.user_service.find_all_users()
 
@@ -111,7 +111,7 @@ class UserController(Blueprint):
             }
         )
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     def me(self) -> dict | None:
         username = get_jwt_identity()
         response = self.user_service.find_user_by_username(username)
