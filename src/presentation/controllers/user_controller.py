@@ -22,8 +22,32 @@ class UserController(Blueprint):
     ) -> dict | None:
         data: dict[str] = request.json
         data["username"] = get_jwt_identity()
+        try:
+            user = UpdateUserDto(**data)
 
-        if not all(key in data for key in ["first_name", "last_name"]):
+            response = self.user_service.update_user(user)
+
+            if not response:
+                return (
+                    jsonify(
+                        {
+                            "status": 404,
+                            "message": "User not found",
+                            "success": False,
+                            "data": None,
+                        }
+                    ),
+                    404,
+                )
+
+            return jsonify(
+                {
+                    "status": 200,
+                    "success": True,
+                    "data": response,
+                }
+            )
+        except AttributeError as e:
             return (
                 jsonify(
                     {
@@ -35,31 +59,30 @@ class UserController(Blueprint):
                 ),
                 400,
             )
-
-        user = UpdateUserDto(**data)
-
-        response = self.user_service.update_user(user)
-
-        if not response:
+        except ValueError as e:
             return (
                 jsonify(
                     {
-                        "status": 404,
-                        "message": "User not found",
+                        "status": 400,
+                        "message": "Invalid input data",
                         "success": False,
                         "data": None,
                     }
                 ),
-                404,
+                400,
             )
-
-        return jsonify(
-            {
-                "status": 200,
-                "success": True,
-                "data": response,
-            }
-        )
+        except Exception as e:
+            return (
+                jsonify(
+                    {
+                        "status": 500,
+                        "message": "Internal server error" + str(e),
+                        "success": False,
+                        "data": None,
+                    }
+                ),
+                500,
+            )
 
     @jwt_required(fresh=True)
     def find_user_by_username(self, username: str) -> dict | None:
