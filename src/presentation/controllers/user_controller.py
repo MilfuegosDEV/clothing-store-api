@@ -1,8 +1,8 @@
 from application.services import UserService
 from flask import Blueprint, jsonify, request
 from domain.dtos.user import UpdateUserDto
-from flask_jwt_extended import jwt_required, get_jwt_identity
-
+from flask_jwt_extended import get_jwt_identity
+from application.guards import auth_required  # noqa: F401
 
 class UserController(Blueprint):
     def __init__(self):
@@ -16,7 +16,7 @@ class UserController(Blueprint):
         self.add_url_rule("/get/me", view_func=self.me, methods=["GET"])
         self.add_url_rule("/update", view_func=self.update_user, methods=["PUT"])
 
-    @jwt_required(fresh=True)
+    @auth_required()
     def update_user(
         self,
     ) -> dict | None:
@@ -84,7 +84,7 @@ class UserController(Blueprint):
                 500,
             )
 
-    @jwt_required(fresh=True)
+    @auth_required()
     def find_user_by_username(self, username: str) -> dict | None:
         response = self.user_service.find_user_by_username(username)
 
@@ -109,7 +109,7 @@ class UserController(Blueprint):
             }
         )
 
-    @jwt_required(fresh=True)
+    @auth_required()
     def find_all_users(self) -> list[dict] | None:
         response = self.user_service.find_all_users()
 
@@ -134,7 +134,7 @@ class UserController(Blueprint):
             }
         )
 
-    @jwt_required(fresh=True)
+    @auth_required()
     def me(self) -> dict | None:
         username = get_jwt_identity()
         response = self.user_service.find_user_by_username(username)

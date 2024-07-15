@@ -17,7 +17,6 @@ def create_app() -> Flask:
     from presentation.errors import (
         handle_http_exception,
         handle_exception,
-        handle_unauthorized_exception,
         handle_expired_token_exception,
     )
 
@@ -44,9 +43,5 @@ def create_app() -> Flask:
     @jwt.expired_token_loader
     def custom_expired_token_loader_callback(jwt_header, jwt_payload):
         return handle_expired_token_exception(jwt_header, jwt_payload)
-
-    @jwt.unauthorized_loader
-    def custom_unauthorized_loader_callback(error):
-        return handle_unauthorized_exception(error)
 
     return app

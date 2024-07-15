@@ -15,6 +15,7 @@ class UserRepository(IUserRepository):
             # to prevent create an user with the same username twice in the database
             if self.userModel.exists(user.username):
                 return None
+
             else:
                 new_user: UserModel = self.userModel(user).save()
                 # assign role to user if the user is not the first user the role will be user by default.
@@ -33,8 +34,6 @@ class UserRepository(IUserRepository):
             found_user: UserModel = self.userModel.query.filter_by(
                 username=user.username
             ).first()
-            if not found_user:
-                return None
 
             return found_user.update(user).to_dict()
 
@@ -46,10 +45,6 @@ class UserRepository(IUserRepository):
     ):
         try:
             user: UserModel = self.userModel.query.filter_by(username=username).first()
-
-            if not user:
-                return None
-
             return user.to_dict(include_password, include_role_name)
 
         except sqlalchemy.exc.IntegrityError:

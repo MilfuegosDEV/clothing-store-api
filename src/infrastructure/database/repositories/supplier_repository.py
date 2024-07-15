@@ -9,21 +9,20 @@ class SupplierRepository(ISupplierRepository):
         self.supplierModel = SupplierModel
 
     def create(self, supplier):
-        try:
-            if self.supplierModel.exists(phone=supplier.phone, email=supplier.email):
-                return None
-            else:
-                new_supplier: SupplierModel = self.supplierModel(supplier).save()
-                return new_supplier.to_dict()
-        except sqlalchemy.exc.IntegrityError:
-            return None
+        if self.supplierModel.exists(phone=supplier.phone, email=supplier.email):
+            raise sqlalchemy.exc.IntegrityError("Supplier already exists", None, None)
+        else:
+            new_supplier: SupplierModel = self.supplierModel(supplier).save()
+            return new_supplier.to_dict()
 
     def update(self, supplier):
         if not self.supplierModel.exists(id=supplier.id):
             return None
         else:
             if self.supplierModel.exists(phone=supplier.phone, email=supplier.email):
-                return None
+                raise sqlalchemy.exc.IntegrityError(
+                    "Supplier already exists", None, None
+                )
             else:
 
                 updated_supplier: SupplierModel = self.supplierModel.query.get(

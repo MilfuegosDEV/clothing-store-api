@@ -16,8 +16,9 @@ class AuthService(IAuthService):
         try:
 
             data = self.user_repository.find_by_username(
-                user.username, include_password=True
+                user.username, include_password=True, include_role_name=True
             )
+
             if user is None:
                 return None
 
@@ -25,7 +26,10 @@ class AuthService(IAuthService):
                 return False
 
             # Create a new access token
-            return jwt.create_access_token(identity=user.username, fresh=True)
+            return jwt.create_access_token(
+                identity={"username": data["username"], "role": data["role"]},
+                fresh=True,
+            )
         except Exception as e:
             print(e)
             return None

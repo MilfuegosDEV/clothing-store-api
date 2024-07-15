@@ -1,5 +1,4 @@
 from werkzeug.exceptions import HTTPException
-from flask_jwt_extended.exceptions import JWTExtendedException
 from flask import jsonify
 
 
@@ -29,22 +28,6 @@ def handle_exception(error: Exception):
         ),
         500,
     )
-
-
-def handle_unauthorized_exception(error: JWTExtendedException):
-    """Handles unauthorized exception."""
-    return (
-        jsonify(
-            {
-                "message": "Unauthorized",
-                "success": False,
-                "data": None,
-                "status": 401,
-            }
-        ),
-        401,
-    )
-
 
 def handle_expired_token_exception(jwt_header, jwt_payload):
     """Handles expired token exception."""
